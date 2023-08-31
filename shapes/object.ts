@@ -1,5 +1,15 @@
-import { AnyShape, createShape, Expand, Input, metadata, Output, Shape, ShapeVisitor, U2I } from "../common/mod.ts"
-import { constant } from "./constant.ts"
+import {
+  AnyShape,
+  DecodeBuffer,
+  EncodeBuffer,
+  Expand,
+  Input,
+  Output,
+  Shape,
+  U2I,
+  createShape,
+  metadata,
+} from "../common/mod.ts"
 import { option } from "./option.ts"
 
 export function field<K extends keyof any, VI, VO>(key: K, $value: Shape<VI, VO>): Shape<
@@ -98,82 +108,19 @@ export function object<T extends AnyShape[]>(...members: ObjectMembers<T>): Shap
 }
 
 function generateEncode(members: Shape<any>[]) {
-  const vars: string[] = []
-  const args: unknown[] = []
-
-  const valueVisitor = new ShapeVisitor<(v: string) => string>()
-  valueVisitor.add(constant, (shape, value, pattern) => (v) => {
-    if (pattern) {
-      return `${addVar(shape)}.subEncode(buffer, ${v})`
+  return (buffer: EncodeBuffer, value: any) => {
+    for (const member of members as Shape<any>[]) {
+      member.subEncode(buffer, value as never)
     }
-    return addVar(value)
-  })
-  valueVisitor.fallback((shape) => (v) => {
-    return `${addVar(shape)}.subEncode(buffer, ${v})`
-  })
-
-  const fieldVisitor = new ShapeVisitor<string>()
-  fieldVisitor.add(field, (_, key, value) => {
-    return valueVisitor.visit(value)(`value[${typeof key === "symbol" ? addVar(key) : JSON.stringify(key)}]`)
-  })
-  fieldVisitor.add(optionalField, (_, key, value) => {
-    return fieldVisitor.visit(field(key, option(value)))
-  })
-  fieldVisitor.add(object, (_, ...members) => {
-    return members.map((x) => fieldVisitor.visit(x)).join(";")
-  })
-  fieldVisitor.fallback((shape) => {
-    return `${addVar(shape)}.subEncode(buffer, value)`
-  })
-
-  const content = members.map((x) => fieldVisitor.visit(x)).join(";")
-
-  return (new Function(...vars, `return function objectEncode(buffer,value){${content}}`))(...args)
-
-  function addVar(value: unknown) {
-    const v = "v" + vars.length
-    vars.push(v)
-    args.push(value)
-    return v
   }
 }
 
 function generateDecode(members: Shape<any>[]) {
-  const vars: string[] = []
-  const args: unknown[] = []
-
-  const valueVisitor = new ShapeVisitor<string>()
-  valueVisitor.add(constant, (shape, value, pattern) => {
-    if (pattern) {
-      return `${addVar(shape)}.subDecode(buffer)`
+  return (buffer: DecodeBuffer) => {
+    let value = {}
+    for (const member of members as Shape<any>[]) {
+      value = { ...value, ...member.subDecode(buffer) }
     }
-    return addVar(value)
-  })
-  valueVisitor.fallback((shape) => {
-    return `${addVar(shape)}.subDecode(buffer)`
-  })
-  const fieldVisitor = new ShapeVisitor<string>()
-  fieldVisitor.add(field, (_, key, value) => {
-    return `[${typeof key === "symbol" ? addVar(key) : JSON.stringify(key)}]: ${valueVisitor.visit(value)}`
-  })
-  fieldVisitor.add(optionalField, (_, key, value) => {
-    return `...buffer.array[buffer.index++] ? {${fieldVisitor.visit(field(key, value))} } : undefined`
-  })
-  fieldVisitor.add(object, (_, ...members) => {
-    return members.map((x) => fieldVisitor.visit(x)).join(",")
-  })
-  fieldVisitor.fallback((shape) => {
-    return `...${addVar(shape)}.subDecode(buffer)`
-  })
-
-  const content = members.map((x) => fieldVisitor.visit(x)).join(",")
-
-  return (new Function(...vars, `return function objectDecode(buffer){return{${content}}}`))(...args)
-
-  function addVar(value: unknown) {
-    const v = "v" + vars.length
-    vars.push(v)
-    args.push(value)
-    return v
+    return value as any
   }
 }
