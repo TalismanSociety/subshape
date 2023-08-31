@@ -1,9 +1,6 @@
 export const snapshot = {};
 
-snapshot[`\$myError MyError {
-  code: 1,
-  message: "At war with my Arch system config",
-  payload: { a: "a", b: 2, c: true } } 1`] = `
+snapshot[`\$myError MyError {\\n  code: 1,\\n  message: "At war with my Arch system config",\\n  payload: { a: "a", b: 2, c: true } } 1`] = `
 01
 84
 41

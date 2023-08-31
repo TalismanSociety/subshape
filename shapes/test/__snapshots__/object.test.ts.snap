@@ -68,97 +68,25 @@ snapshot[`\$person invalid { name: "", nickName: "", superPower: "", luckyNumber
 
 snapshot[`\$person invalid { name: "", nickName: "", superPower: "", unluckyNumber: 0 } 1`] = `ShapeAssertError: !("luckyNumber" in value)`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) { _tag: "a", bar: 123 } 1`] = `
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) { _tag: "a", bar: 123 } 1`] = `
 00
 7b
 `;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) { _tag: "b", x: 0, bar: 123 } 1`] = `
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) { _tag: "b", x: 0, bar: 123 } 1`] = `
 01
 00
 7b
 `;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid null 1`] = `ShapeAssertError: value == null`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid null 1`] = `ShapeAssertError: value == null`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid { _tag: null, bar: 1 } 1`] = `ShapeAssertError: typeof value._tag !== "string"`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid { _tag: null, bar: 1 } 1`] = `ShapeAssertError: typeof value._tag !== "string"`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid { _tag: "", bar: 1 } 1`] = `ShapeAssertError: value._tag: invalid tag`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid { _tag: "", bar: 1 } 1`] = `ShapeAssertError: value._tag: invalid tag`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid { _tag: "b", bar: 1 } 1`] = `ShapeAssertError: !("x" in value)`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid { _tag: "b", bar: 1 } 1`] = `ShapeAssertError: !("x" in value)`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid { _tag: "b", x: -1, bar: 1 } 1`] = `ShapeAssertError: value.x < 0`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid { _tag: "b", x: -1, bar: 1 } 1`] = `ShapeAssertError: value.x < 0`;
 
-snapshot[`\$.object(
-  \$.taggedUnion(
-    "_tag",
-    [
-      Variant { tag: "a", shape: \$.object([]) },
-      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }
-    ]
-  ),
-  \$.field("bar", \$.u8)
-) invalid { _tag: "a", bar: -1 } 1`] = `ShapeAssertError: value.bar < 0`;
+snapshot[`\$.object(\\n  \$.taggedUnion(\\n    "_tag",\\n    [\\n      Variant { tag: "a", shape: \$.object([]) },\\n      Variant { tag: "b", shape: \$.object(\$.field("x", \$.u8)) }\\n    ]\\n  ),\\n  \$.field("bar", \$.u8)\\n) invalid { _tag: "a", bar: -1 } 1`] = `ShapeAssertError: value.bar < 0`;
