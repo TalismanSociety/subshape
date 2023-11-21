@@ -23,6 +23,21 @@ npm install @talismn/subshape-fork
 import * as $ from "@talismn/subshape-fork"
 ```
 
+## Creating a release
+
+```bash
+VERSION="0.0.1" # change this to the new version number
+
+# Build & publish a release to npm
+deno task dnt $VERSION
+cd target/npm_pkg
+npm publish
+
+# Publish a release tag to GitHub for future reference
+git tag --no-sign $VERSION
+git push origin --tags
+```
+
 ## Demo
 
 ### Craft a Composable Shape
