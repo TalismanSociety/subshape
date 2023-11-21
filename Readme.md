@@ -1,6 +1,6 @@
 # subShape &nbsp;<sub><sup>composable shapes for cohesive code</sup></sub>
 
-> ### *one shape can do them all; one shape defined them*
+> ### _one shape can do them all; one shape defined them_
 
 subShape provides primitives and patterns for crafting composable shapes
 featuring cohesive typing, validation, serialization, and reflection.
@@ -16,11 +16,11 @@ import * as $ from "https://deno.land/x/subshape/mod.ts"
 ### Node
 
 ```
-npm install subshape
+npm install @talismn/subshape-fork
 ```
 
 ```ts
-import * as $ from "subshape"
+import * as $ from "@talismn/subshape-fork"
 ```
 
 ## Demo
