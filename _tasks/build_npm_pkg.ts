@@ -1,5 +1,5 @@
 import { emptyDir } from "https://deno.land/std@0.161.0/fs/mod.ts"
-import { build } from "https://deno.land/x/dnt@0.33.0/mod.ts"
+import { build } from "https://deno.land/x/dnt@0.39.0/mod.ts"
 
 await emptyDir("target/npm_pkg")
 
@@ -13,11 +13,11 @@ await build({
   ],
   outDir: "target/npm_pkg",
   package: {
-    name: "subshape",
+    name: "@talismn/subshape-fork",
     version: Deno.args[0]!,
     description,
     sideEffects: false,
-    repository: "github:paritytech/subshape",
+    repository: "github:talismansociety/subshape",
   },
   shims: {
     deno: {
@@ -26,8 +26,8 @@ await build({
   },
   compilerOptions: {
     sourceMap: true,
-    target: "ES2021",
-    lib: ["es2021", "dom"], // https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60038
+    target: "ES2022",
+    lib: ["ES2022", "DOM"], // https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/60038
   },
   test: false,
 })
